@@ -8,16 +8,13 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users/")
+    fetch("https://jsonplaceholder.typicode.com/users/2")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        console.log(typeof data === "object");
-        console.log(data.length !== undefined);
-        if (data.length === undefined) {
-          return dispatch(getUsers([data])); //estos es para tener el estado de los datos obtenidos de la API
+        if (data.length >= 2) {
+          return dispatch(getUsers(data));
         }
-        dispatch(getUsers(data));
+        dispatch(getUsers([data])); //estos es para tener el estado de los datos obtenidos de la API
         //lo estpy probando con un solo id paro deberia fucionar igual con todos los datos obtenidos
         // dispatch(addUser(data)); //esto es para probar otro estado de usuarios
         //para un solo id y funciona bien
