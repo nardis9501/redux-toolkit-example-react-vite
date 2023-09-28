@@ -8,7 +8,6 @@ import {
 export default function Header() {
   const { users } = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  console.log(users);
 
   const handlerDelete = (id) => {
     dispatch(deleteUserById(id));
@@ -24,7 +23,13 @@ export default function Header() {
   if (users === null) {
     return <h2>Loading ...</h2>;
   }
+  const mapUsers = () => {
+    if (users.length >= 0) {
+      return users;
+    }
 
+    return [users];
+  };
   return (
     <>
       <div className="relative  overflow-x-auto shadow-md sm:rounded-lg  bg-white dark:bg-gray-800 p-4">
@@ -165,7 +170,7 @@ export default function Header() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => {
+            {mapUsers().map((user) => {
               const { name } = user;
               const { email } = user;
               const { username } = user;
