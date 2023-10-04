@@ -6,23 +6,28 @@ import UserDate from "./components/UserDate";
 function App() {
   const dispatch = useDispatch();
 
+  const persistanceState = localStorage.getItem(
+    "redux_state-users_persitanceLocalSotarage"
+  );
+  console.log(persistanceState);
+
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users/")
-      .then((response) => response.json())
-      .then((data) => {
-        return dispatch(getUsers(data));
-      })
-      .catch((error) => {
-        console.log(error);
-        throw Error(error);
-      });
+    if (!persistanceState) {
+      fetch("https://jsonplaceholder.typicode.com/users/")
+        .then((response) => response.json())
+        .then((data) => {
+          return dispatch(getUsers(data));
+        })
+        .catch((error) => {
+          console.log(error);
+          throw Error(error);
+        });
+    }
   }, []);
 
   return (
     <>
-      <div className="container h-screen bg-slate-200 p-5 grid grid-cols-1 gap-4">
-        <h1 className="text-black mb-4">Redux Toolkit Example</h1>
-
+      <div className="container  h-screen bg-slate-200 p-5">
         <UserDate />
       </div>
     </>

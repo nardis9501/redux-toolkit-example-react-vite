@@ -5,8 +5,9 @@ import {
   filterUserbyName,
   getUsers,
 } from "../redux/slices/getUsersSlice";
-export default function Header() {
+export default function UserDate() {
   const { users } = useSelector((state) => state.users);
+  console.log(users);
   const dispatch = useDispatch();
 
   const handlerDelete = (id) => {
@@ -20,19 +21,25 @@ export default function Header() {
     dispatch(filterUserbyName(value));
   };
 
-  if (users === null) {
-    return <h2>Loading ...</h2>;
-  }
+  // if (users === null) {
+  //   return <h2 className="w-screen">Loading ...</h2>;
+  // }
   const mapUsers = () => {
-    if (users.length >= 0) {
+    if (users.length >= 1) {
       return users;
+    } else if (users.length === 0) {
+      console.log("User no found");
+      return null;
     }
 
     return [users];
   };
   return (
     <>
-      <div className="relative  overflow-x-auto shadow-md sm:rounded-lg  bg-white dark:bg-gray-800 p-4">
+      <h1 className="text-black md:text-5xl sm:text-3xl text-xl mb-5">
+        Redux Toolkit Example
+      </h1>
+      <div className="overflow-x-auto h-5/6 w-full shadow-md sm:rounded-lg  bg-white dark:bg-gray-800 p-4">
         <div className="flex p-1 items-center justify-between pb-4 bg-white dark:bg-gray-900">
           <div>
             <button
@@ -170,96 +177,110 @@ export default function Header() {
             </tr>
           </thead>
           <tbody>
-            {mapUsers().map((user) => {
-              const { name } = user;
-              const { email } = user;
-              const { username } = user;
-              const { website } = user;
-              const { phone } = user;
-              const { company } = user;
-              const { address } = user;
+            {users === null ? (
+              <tr>
+                <h2 className="grid place-content-center w-full text-2xl">
+                  Loading ...
+                </h2>
+              </tr>
+            ) : mapUsers() === null ? (
+              <tr>
+                <td>
+                  <h2 className="uppercase text-xl">User no found</h2>
+                </td>
+              </tr>
+            ) : (
+              mapUsers().map((user) => {
+                const { name } = user;
+                const { email } = user;
+                const { username } = user;
+                const { website } = user;
+                const { phone } = user;
+                const { company } = user;
+                const { address } = user;
 
-              const { id } = user;
-              const companyName = company.name;
-              return (
-                <tr
-                  key={id}
-                  className="bg-white border-b  dark:border-gray-700 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
-                >
-                  <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-3"
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="checkbox-table-search-3"
-                        className="sr-only"
-                      >
-                        checkbox
-                      </label>
-                    </div>
-                  </td>
-
-                  {/* ID */}
-                  <td className="px-6 py-4">{id}</td>
-
-                  {/* Name, username and avatar*/}
-
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                const { id } = user;
+                const companyName = company.name;
+                return (
+                  <tr
+                    key={id}
+                    className="bg-white border-b  dark:border-gray-700 dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
-                    <div className="flex items-center">
-                      <img
-                        className="w-10 h-10 rounded-full"
-                        src="/docs/images/people/profile-picture-4.jpg"
-                        alt={`${username} image`}
-                      />
-                      <div className="pl-3">
-                        <div className="text-base font-semibold">{name}</div>
-                        <div className="font-normal text-gray-500">
-                          {username}
+                    <td className="w-4 p-4">
+                      <div className="flex items-center">
+                        <input
+                          id="checkbox-table-search-3"
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          htmlFor="checkbox-table-search-3"
+                          className="sr-only"
+                        >
+                          checkbox
+                        </label>
+                      </div>
+                    </td>
+
+                    {/* ID */}
+                    <td className="px-6 py-4">{id}</td>
+
+                    {/* Name, username and avatar*/}
+
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      <div className="flex items-center">
+                        <img
+                          className="w-10 h-10 rounded-full"
+                          src="/docs/images/people/profile-picture-4.jpg"
+                          alt={`${username} image`}
+                        />
+                        <div className="pl-3">
+                          <div className="text-base font-semibold">{name}</div>
+                          <div className="font-normal text-gray-500">
+                            {username}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </th>
+                    </th>
 
-                  {/* Contact */}
+                    {/* Contact */}
 
-                  <td className="px-2 py-2">
-                    <div scope="col" className="px-2 py-1">
-                      Email: {email}
-                    </div>
-                    <div scope="col" className="px-2 py-1">
-                      Phone: {phone}
-                    </div>
-                    <div scope="col" className="px-2 py-1">
-                      Address: {`${address.street} street,`}
-                      <br />
-                      {`${address.suite}, ${address.city}, ${address.zipcode}`}
-                    </div>
-                  </td>
+                    <td className="px-2 py-2">
+                      <div scope="col" className="px-2 py-1">
+                        Email: {email}
+                      </div>
+                      <div scope="col" className="px-2 py-1">
+                        Phone: {phone}
+                      </div>
+                      <div scope="col" className="px-2 py-1">
+                        Address: {`${address.street} street,`}
+                        <br />
+                        {`${address.suite}, ${address.city}, ${address.zipcode}`}
+                      </div>
+                    </td>
 
-                  {/* Website */}
-                  <td className="px-6 py-4">{website}</td>
+                    {/* Website */}
+                    <td className="px-6 py-4">{website}</td>
 
-                  {/* Company */}
-                  <td className="px-6 py-4">{companyName}</td>
+                    {/* Company */}
+                    <td className="px-6 py-4">{companyName}</td>
 
-                  <td className="px-6 py-4">
-                    <a
-                      href="#"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Edit user
-                    </a>
-                    <button onClick={() => handlerDelete(id)}>delete</button>
-                  </td>
-                </tr>
-              );
-            })}
+                    <td className="px-6 py-4">
+                      <a
+                        href="#"
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                      >
+                        Edit user
+                      </a>
+                      <button onClick={() => handlerDelete(id)}>delete</button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>
